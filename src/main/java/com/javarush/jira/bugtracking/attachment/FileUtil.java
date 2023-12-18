@@ -12,9 +12,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
+
+import static java.util.Objects.isNull;
 
 @UtilityClass
 public class FileUtil {
@@ -24,15 +24,17 @@ public class FileUtil {
         if (multipartFile.isEmpty()) {
             throw new IllegalRequestDataException("Select a file to upload.");
         }
-
-        File dir = new File(directoryPath);
-        if (dir.exists() || dir.mkdirs()) {
-            File file = new File(directoryPath + fileName);
-            try (OutputStream outStream = new FileOutputStream(file)) {
-                outStream.write(multipartFile.getBytes());
+        Path dirPath = Paths.get(directoryPath);
+        try {
+            Files.createDirectories(dirPath);
+            Path filePath = dirPath.resolve(fileName);
+            try {
+                Files.write(filePath, multipartFile.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
             } catch (IOException ex) {
                 throw new IllegalRequestDataException("Failed to upload file" + multipartFile.getOriginalFilename());
             }
+        }catch (IOException e) {
+            throw new IllegalRequestDataException("Failed to create directory" + directoryPath);
         }
     }
 
