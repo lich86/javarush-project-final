@@ -1,5 +1,5 @@
 FROM openjdk:17
-VOLUME /tmp
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar", "--spring.profiles.active=prod"]
+WORKDIR app
+COPY target/*.jar app/app.jar
+COPY resources ./resources
+ENTRYPOINT ["java", "-jar", "app/app.jar"]
