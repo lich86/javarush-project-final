@@ -21,6 +21,8 @@ services:
 
   spring-app:
     build: .
+    env_file:
+      - jira.env
     ports:
       - '8088:8080'
     depends_on:

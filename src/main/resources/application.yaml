@@ -10,6 +10,8 @@ app:
 spring:
   init:
     mode: never
+  config:
+      import: environment.yaml
   jpa:
     show-sql: true
     open-in-view: false
