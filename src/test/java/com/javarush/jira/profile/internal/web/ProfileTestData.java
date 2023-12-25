@@ -1,15 +1,18 @@
 package com.javarush.jira.profile.internal.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javarush.jira.MatcherFactory;
 import com.javarush.jira.profile.ContactTo;
 import com.javarush.jira.profile.ProfileTo;
 import com.javarush.jira.profile.internal.model.Contact;
 import com.javarush.jira.profile.internal.model.Profile;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
 import java.util.Set;
 
 public class ProfileTestData {
+
     public static MatcherFactory.Matcher<Profile> PROFILE_MATCHER =
             MatcherFactory.usingIgnoringFieldsComparator(Profile.class, "user");
 
